@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel", "BuildingBlo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "BuildingBlocks\Common\Common.csproj", "{C9488184-A8DC-470B-968C-C55A56AB1162}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "BuildingBlocks\DataAccess\DataAccess.csproj", "{7C46ADEE-2054-44C7-A178-752E029F4BA8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,6 +163,18 @@ Global
 		{C9488184-A8DC-470B-968C-C55A56AB1162}.Release|x64.Build.0 = Release|Any CPU
 		{C9488184-A8DC-470B-968C-C55A56AB1162}.Release|x86.ActiveCfg = Release|Any CPU
 		{C9488184-A8DC-470B-968C-C55A56AB1162}.Release|x86.Build.0 = Release|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Debug|x64.Build.0 = Debug|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Debug|x86.Build.0 = Debug|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Release|x64.ActiveCfg = Release|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Release|x64.Build.0 = Release|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Release|x86.ActiveCfg = Release|Any CPU
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,5 +192,9 @@ Global
 		{27F5CC35-CFC5-4C9E-B871-F2E3FC8CD63B} = {269E2EEF-A70D-B8BE-4352-54CF8C86B016}
 		{D00FC6F0-0443-4A1F-AE44-1A9AE33CE90E} = {7266C4A9-E384-DC00-0EB6-47F6002CFBA7}
 		{C9488184-A8DC-470B-968C-C55A56AB1162} = {7266C4A9-E384-DC00-0EB6-47F6002CFBA7}
+		{7C46ADEE-2054-44C7-A178-752E029F4BA8} = {7266C4A9-E384-DC00-0EB6-47F6002CFBA7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC743C6B-5A09-42C0-8EA4-42FD85BA20B5}
 	EndGlobalSection
 EndGlobal
