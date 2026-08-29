@@ -1,0 +1,73 @@
+﻿using System.Linq.Expressions;
+
+namespace DataAccess.Specifications;
+
+public abstract class BaseSpecification<T> : ISpecification<T>
+{
+    public Expression<Func<T, bool>>? Criteria { get; private set; }
+
+    public List<Expression<Func<T, object>>> Includes { get; } = new();
+
+    public Expression<Func<T, object>>? OrderBy { get; private set; }
+
+    public Expression<Func<T, object>>? OrderByDescending { get; private set; }
+
+    public int Take { get; private set; }
+
+    public int Skip { get; private set; }
+
+    public bool IsPagingEnabled { get; private set; }
+
+    protected BaseSpecification()
+    {
+    }
+
+    protected BaseSpecification(Expression<Func<T, bool>> criteria)
+    {
+        Criteria = criteria;
+    }
+
+    protected void AddInclude(Expression<Func<T, object>> includeExpression)
+    {
+        Includes.Add(includeExpression);
+    }
+
+    protected void ApplyOrderBy(Expression<Func<T, object>> orderByExpression)
+    {
+        OrderBy = orderByExpression;
+    }
+
+    protected void ApplyOrderByDescending(
+        Expression<Func<T, object>> orderByDescendingExpression)
+    {
+        OrderByDescending = orderByDescendingExpression;
+    }
+
+    protected void ApplyPaging(int skip, int take)
+    {
+        Skip = skip;
+        Take = take;
+        IsPagingEnabled = true;
+    }
+    public Expression<Func<T, object>>? Selector { get; private set; }
+
+    protected void ApplySelector(
+        Expression<Func<T, object>> selector)
+    {
+        Selector = selector;
+    }
+
+    public bool IsTrackingEnabled { get; private set; }
+
+    protected void EnableTracking()
+    {
+        IsTrackingEnabled = true;
+    }
+    public List<Expression<Func<T, bool>>> Filters { get; } = new();
+
+    protected void AddFilter(
+        Expression<Func<T, bool>> filterExpression)
+    {
+        Filters.Add(filterExpression);
+    }
+}

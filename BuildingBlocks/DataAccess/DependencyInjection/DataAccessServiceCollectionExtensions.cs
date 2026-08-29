@@ -1,4 +1,5 @@
-﻿using DataAccess.Repositories;
+﻿using DataAccess.Models;
+using DataAccess.Repositories;
 using DataAccess.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 using UnitOfWorkImplementation = DataAccess.UnitOfWork.UnitOfWork;

@@ -18,4 +18,6 @@ public class Product : AuditableEntity
     public bool IsActive { get; private set; }
 
     public int CategoryId { get; private set; }
+
+    public Category Category { get; private set; } = null!;
 }

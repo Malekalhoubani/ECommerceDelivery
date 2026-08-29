@@ -1,19 +1,25 @@
-﻿using BuildingBlocks.SharedKernel.Entities;
+﻿using DataAccess.Specifications;
 
-namespace DataAccess.Repositories;
+namespace DataAccess.Models;
 
-public interface IRepository<T> : IReadRepository<T>
-    where T : BaseEntity
+public interface IRepository<T>
 {
-    Task AddAsync(T entity);
+    Task<T?> GetByIdAsync(
+        int id,
+        CancellationToken cancellationToken = default);
 
-    Task AddRangeAsync(IEnumerable<T> entities);
+    Task<IReadOnlyList<T>> GetAllAsync(
+        CancellationToken cancellationToken = default);
 
-    void Update(T entity);
+    Task<IReadOnlyList<T>> ListAsync(
+        ISpecification<T> specification,
+        CancellationToken cancellationToken = default);
 
-    void Delete(T entity);
+    Task<T?> FirstOrDefaultAsync(
+        ISpecification<T> specification,
+        CancellationToken cancellationToken = default);
 
-    void DeleteRange(IEnumerable<T> entities);
-
-    Task<bool> ExistsAsync(int id);
+    Task<int> CountAsync(
+        ISpecification<T> specification,
+        CancellationToken cancellationToken = default);
 }

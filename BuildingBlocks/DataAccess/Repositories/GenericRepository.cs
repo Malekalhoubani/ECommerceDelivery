@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.SharedKernel.Entities;
 using DataAccess.Contexts;
 using DataAccess.Models;
+using DataAccess.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -18,44 +19,60 @@ public class GenericRepository<T> : IRepository<T>
         DbSet = context.Set<T>();
     }
 
-    public async Task<T?> GetByIdAsync(int id)
+    public async Task<T?> GetByIdAsync(
+        int id,
+        CancellationToken cancellationToken = default)
     {
-        return await DbSet.FindAsync(id);
+        return await DbSet.FindAsync(
+            new object[] { id },
+            cancellationToken);
     }
 
-    public async Task<IReadOnlyList<T>> GetAllAsync()
+    public async Task<IReadOnlyList<T>> GetAllAsync(
+        CancellationToken cancellationToken = default)
     {
         return await DbSet
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<IReadOnlyList<T>> FindAsync(
-        Expression<Func<T, bool>> predicate)
+        Expression<Func<T, bool>> predicate,
+        CancellationToken cancellationToken = default)
     {
         return await DbSet
             .AsNoTracking()
             .Where(predicate)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<bool> AnyAsync(
-        Expression<Func<T, bool>> predicate)
+        Expression<Func<T, bool>> predicate,
+        CancellationToken cancellationToken = default)
     {
-        return await DbSet.AnyAsync(predicate);
+        return await DbSet.AnyAsync(
+            predicate,
+            cancellationToken);
     }
 
     public async Task<int> CountAsync(
-        Expression<Func<T, bool>>? predicate = null)
+        Expression<Func<T, bool>>? predicate = null,
+        CancellationToken cancellationToken = default)
     {
         return predicate == null
-            ? await DbSet.CountAsync()
-            : await DbSet.CountAsync(predicate);
+            ? await DbSet.CountAsync(cancellationToken)
+            : await DbSet.CountAsync(
+                predicate,
+                cancellationToken);
     }
 
-    public async Task AddAsync(T entity)
+    public async Task AddAsync(
+        T entity,
+        CancellationToken cancellationToken = default)
     {
-        await DbSet.AddAsync(entity);
+        await DbSet.AddAsync(
+            entity,
+            cancellationToken);
     }
 
     public void Update(T entity)
@@ -67,31 +84,46 @@ public class GenericRepository<T> : IRepository<T>
     {
         DbSet.Remove(entity);
     }
-    public async Task<bool> ExistsAsync(int id)
+
+    public async Task<bool> ExistsAsync(
+        int id,
+        CancellationToken cancellationToken = default)
     {
-        return await DbSet.AnyAsync(x => x.Id == id);
+        return await DbSet.AnyAsync(
+            x => x.Id == id,
+            cancellationToken);
     }
-    public async Task AddRangeAsync(IEnumerable<T> entities)
+
+    public async Task AddRangeAsync(
+        IEnumerable<T> entities,
+        CancellationToken cancellationToken = default)
     {
-        await DbSet.AddRangeAsync(entities);
+        await DbSet.AddRangeAsync(
+            entities,
+            cancellationToken);
     }
+
     public void DeleteRange(IEnumerable<T> entities)
     {
         DbSet.RemoveRange(entities);
     }
 
-    public async Task<PagedResult<T>> GetPagedAsync(int pageNumber,int pageSize)
-    { 
+    public async Task<PagedResult<T>> GetPagedAsync(
+        int pageNumber,
+        int pageSize,
+        CancellationToken cancellationToken = default)
+    {
         pageNumber = pageNumber <= 0 ? 1 : pageNumber;
         pageSize = pageSize <= 0 ? 10 : pageSize;
 
-        var totalCount = await DbSet.CountAsync();
+        var totalCount = await DbSet
+            .CountAsync(cancellationToken);
 
         var items = await DbSet
             .AsNoTracking()
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         return new PagedResult<T>
         {
@@ -100,5 +132,37 @@ public class GenericRepository<T> : IRepository<T>
             PageSize = pageSize,
             TotalCount = totalCount
         };
+    }
+
+    public async Task<IReadOnlyList<T>> ListAsync(
+        ISpecification<T> specification,
+        CancellationToken cancellationToken = default)
+    {
+        return await ApplySpecification(specification)
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<T?> FirstOrDefaultAsync(
+        ISpecification<T> specification,
+        CancellationToken cancellationToken = default)
+    {
+        return await ApplySpecification(specification)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<int> CountAsync(
+        ISpecification<T> specification,
+        CancellationToken cancellationToken = default)
+    {
+        return await ApplySpecification(specification)
+            .CountAsync(cancellationToken);
+    }
+
+    private IQueryable<T> ApplySpecification(
+        ISpecification<T> specification)
+    {
+        return SpecificationEvaluator<T>.GetQuery(
+            DbSet.AsQueryable(),
+            specification);
     }
 }
