@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.SharedKernel.Entities;
 using DataAccess.Contexts;
+using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -69,5 +70,35 @@ public class GenericRepository<T> : IRepository<T>
     public async Task<bool> ExistsAsync(int id)
     {
         return await DbSet.AnyAsync(x => x.Id == id);
+    }
+    public async Task AddRangeAsync(IEnumerable<T> entities)
+    {
+        await DbSet.AddRangeAsync(entities);
+    }
+    public void DeleteRange(IEnumerable<T> entities)
+    {
+        DbSet.RemoveRange(entities);
+    }
+
+    public async Task<PagedResult<T>> GetPagedAsync(int pageNumber,int pageSize)
+    { 
+        pageNumber = pageNumber <= 0 ? 1 : pageNumber;
+        pageSize = pageSize <= 0 ? 10 : pageSize;
+
+        var totalCount = await DbSet.CountAsync();
+
+        var items = await DbSet
+            .AsNoTracking()
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResult<T>
+        {
+            Items = items,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalCount = totalCount
+        };
     }
 }

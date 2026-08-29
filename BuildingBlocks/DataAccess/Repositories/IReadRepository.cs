@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.SharedKernel.Entities;
+using DataAccess.Models;
 using System.Linq.Expressions;
 
 namespace DataAccess.Repositories;
@@ -14,4 +15,7 @@ public interface IReadRepository<T> where T : BaseEntity
     Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
 
     Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null);
+    Task<PagedResult<T>> GetPagedAsync(
+    int pageNumber,
+    int pageSize);
 }
