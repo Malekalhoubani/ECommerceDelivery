@@ -2,7 +2,7 @@
 using DataAccess.Contexts;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Repositories;
+namespace DataAccess.Repositories.QueryRepository;
 
 public class QueryRepository<T> : IQueryRepository<T>
     where T : BaseEntity

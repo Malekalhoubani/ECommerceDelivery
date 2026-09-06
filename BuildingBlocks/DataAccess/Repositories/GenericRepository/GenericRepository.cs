@@ -5,7 +5,7 @@ using DataAccess.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace DataAccess.Repositories;
+namespace DataAccess.Repositories.GenericRepository;
 
 public class GenericRepository<T> : IRepository<T>
     where T : BaseEntity

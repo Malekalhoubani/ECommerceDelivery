@@ -1,6 +1,6 @@
 ﻿using DataAccess.Specifications;
 
-namespace DataAccess.Models;
+namespace DataAccess.Repositories.GenericRepository;
 
 public interface IRepository<T>
 {
