@@ -6,12 +6,7 @@ using Serilog;
 using Logging.Exceptions;
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog(SerilogConfiguration
-    .CreateLoggerConfiguration(
-        builder.Environment.ApplicationName,
-        builder.Environment.EnvironmentName)
-    .CreateLogger());
-
+builder.Host.UseSerilog(SerilogConfiguration.CreateLoggerConfiguration(builder.Environment.ApplicationName, builder.Environment.EnvironmentName).CreateLogger());
 builder.Services.AddDbContext<DeliveryDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DeliveryConnection")));
 
 builder.Services.AddControllers();

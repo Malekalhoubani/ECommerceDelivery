@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Logging\Logging.csproj" />
     <ProjectReference Include="..\ECommerceService.Application\ECommerceService.Application.csproj" />
     <ProjectReference Include="..\ECommerceService.Infrastructure\ECommerceService.Infrastructure.csproj" />
   </ItemGroup>

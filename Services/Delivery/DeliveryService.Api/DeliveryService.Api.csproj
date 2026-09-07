@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Logging\Logging.csproj" />
     <ProjectReference Include="..\DeliveryService.Application\DeliveryService.Application.csproj" />
     <ProjectReference Include="..\DeliveryService.Infrastructure\DeliveryService.Infrastructure.csproj" />
   </ItemGroup>
