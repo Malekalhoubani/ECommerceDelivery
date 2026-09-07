@@ -1,12 +1,18 @@
 using DeliveryService.Infrastructure.Data;
+using Logging.Configurations;
+using Logging.Correlation;
 using Microsoft.EntityFrameworkCore;
-
+using Serilog;
+using Logging.Exceptions;
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<DeliveryDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DeliveryConnection")));
+builder.Host.UseSerilog(SerilogConfiguration
+    .CreateLoggerConfiguration(
+        builder.Environment.ApplicationName,
+        builder.Environment.EnvironmentName)
+    .CreateLogger());
 
+builder.Services.AddDbContext<DeliveryDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DeliveryConnection")));
 
 builder.Services.AddControllers();
 
@@ -20,6 +26,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<CorrelationIdMiddleware>();
+
+app.UseMiddleware<ExceptionLoggingMiddleware>();
+
+app.UseSerilogRequestLogging();
 
 app.MapControllers();
 
