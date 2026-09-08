@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace BuildingBlocks.Common.Exceptions;
 
-namespace Common.Exceptions
+public interface IApplicationException
 {
-     public interface IApplicationException
-    {
-        public string Code { get; }
-    }
+    string Code { get; }
 }
