@@ -1,9 +1,10 @@
+using BuildingBlocks.Common.Exceptions;
 using DeliveryService.Infrastructure.Data;
 using Logging.Configurations;
 using Logging.Correlation;
+using Logging.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using Logging.Exceptions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog(SerilogConfiguration.CreateLoggerConfiguration(builder.Environment.ApplicationName, builder.Environment.EnvironmentName).CreateLogger());
@@ -12,7 +13,8 @@ builder.Services.AddDbContext<DeliveryDbContext>(options =>options.UseSqlServer(
 builder.Services.AddControllers();
 
 builder.Services.AddOpenApi();
-
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
