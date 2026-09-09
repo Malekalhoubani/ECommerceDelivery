@@ -6,23 +6,21 @@ using System.Threading.Tasks;
 
 namespace ECommerceService.Application.DTOs.Products;
 
-public class ProductDto
+public class UpdateProductDto
 {
-    public int Id { get; set; }
-
     public string Name { get; set; } = string.Empty;
 
     public string? Description { get; set; }
 
     public decimal Price { get; set; }
 
-    public string Currency { get; set; } = string.Empty;
+    public string Currency { get; set; } = "JOD";
 
     public int StockQuantity { get; set; }
 
     public string? SKU { get; set; }
 
-    public string Status { get; set; } = string.Empty;
-    public int? BrandId { get; set; }
     public int CategoryId { get; set; }
+
+    public int? BrandId { get; set; }
 }

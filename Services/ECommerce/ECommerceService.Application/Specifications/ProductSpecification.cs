@@ -6,14 +6,15 @@ namespace ECommerceService.Application.Specifications;
 
 public class ProductSpecification : BaseSpecification<Product>
 {
-    public ProductSpecification(ProductFilterModel filter)
-        : base(x =>
-            (!filter.CategoryId.HasValue || x.CategoryId == filter.CategoryId.Value) &&
-            (!filter.Status.HasValue || x.Status == filter.Status.Value) &&
-            (!filter.MinPrice.HasValue || x.Price.Amount >= filter.MinPrice.Value) &&
-            (!filter.MaxPrice.HasValue || x.Price.Amount <= filter.MaxPrice.Value) &&
-            (string.IsNullOrWhiteSpace(filter.SearchTerm) ||
-             x.Name.Contains(filter.SearchTerm)))
+    public ProductSpecification(ProductFilterModel filter , bool applyPaging = true)
+     : base(x =>
+    (!filter.CategoryId.HasValue || x.CategoryId == filter.CategoryId.Value) &&
+    (!filter.BrandId.HasValue || x.BrandId == filter.BrandId.Value) &&
+    (!filter.Status.HasValue || x.Status == filter.Status.Value) &&
+    (!filter.MinPrice.HasValue || x.Price.Amount >= filter.MinPrice.Value) &&
+    (!filter.MaxPrice.HasValue || x.Price.Amount <= filter.MaxPrice.Value) &&
+    (string.IsNullOrWhiteSpace(filter.SearchTerm) ||
+     x.Name.Contains(filter.SearchTerm)))
     {
         AddInclude(x => x.Category);
 
@@ -43,6 +44,13 @@ public class ProductSpecification : BaseSpecification<Product>
             default:
                 ApplyOrderBy(x => x.Name);
                 break;
+        }
+
+        if (applyPaging)
+        {
+            ApplyPaging(
+                (filter.PageNumber - 1) * filter.PageSize,
+                filter.PageSize);
         }
     }
 }

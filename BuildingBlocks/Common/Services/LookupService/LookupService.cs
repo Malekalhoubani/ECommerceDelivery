@@ -1,4 +1,4 @@
-﻿]using DataAccess.Repositories.LookupRepository;
+﻿using DataAccess.Repositories.LookupRepository;
 using SharedKernel.Entities;
 
 namespace Common.Services.LookupService

@@ -7,6 +7,8 @@ public class ProductFilterModel : SearchModel
 {
     public int? CategoryId { get; set; }
 
+    public int? BrandId { get; set; }
+
     public ProductStatus? Status { get; set; }
 
     public decimal? MinPrice { get; set; }
