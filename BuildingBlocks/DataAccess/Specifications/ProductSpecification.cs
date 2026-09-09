@@ -9,7 +9,7 @@ public class ProductSpecification : BaseSpecification<Product>
     public ProductSpecification(ProductFilterModel filter)
         : base(x =>
             (!filter.CategoryId.HasValue || x.CategoryId == filter.CategoryId.Value) &&
-            (!filter.IsActive.HasValue || x.IsActive == filter.IsActive.Value) &&
+            (!filter.Status.HasValue || x.Status == filter.Status.Value) &&
             (!filter.MinPrice.HasValue || x.Price.Amount >= filter.MinPrice.Value) &&
             (!filter.MaxPrice.HasValue || x.Price.Amount <= filter.MaxPrice.Value) &&
             (string.IsNullOrWhiteSpace(filter.SearchTerm) ||
