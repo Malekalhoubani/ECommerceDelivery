@@ -1,6 +1,6 @@
 ﻿namespace DataAccess.Models;
 
-public class SearchModel
+public class SearchModel : PaginationParams
 {
     public string? SearchTerm { get; set; }
 }
