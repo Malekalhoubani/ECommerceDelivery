@@ -1,4 +1,5 @@
 ﻿using DataAccess.Models;
+using ECommerceService.Domain.Enums;
 
 namespace ECommerceService.Application.Models;
 
@@ -6,7 +7,7 @@ public class ProductFilterModel : SearchModel
 {
     public int? CategoryId { get; set; }
 
-    public bool? IsActive { get; set; }
+    public ProductStatus? Status { get; set; }
 
     public decimal? MinPrice { get; set; }
 
