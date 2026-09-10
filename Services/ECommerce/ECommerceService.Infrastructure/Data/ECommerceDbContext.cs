@@ -23,6 +23,10 @@ public class ECommerceDbContext : BaseDbContext
     public DbSet<Brand> Brands => Set<Brand>();
     public DbSet<ProductImage> ProductImages => Set<ProductImage>();
     public DbSet<ProductVariant> ProductVariants => Set<ProductVariant>();
+
+    public DbSet<Inventory> Inventories => Set<Inventory>();
+    public DbSet<StockHistory> StockHistories => Set<StockHistory>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -127,17 +131,20 @@ public class ECommerceDbContext : BaseDbContext
                     .HasMaxLength(10)
                     .IsRequired();
             });
+
         modelBuilder.Entity<ProductVariant>()
-          .OwnsOne(x => x.Price, money =>
-    {
-           money.Property(x => x.Amount)
-            .HasPrecision(18, 2);
+            .OwnsOne(x => x.Price, money =>
+            {
+                money.Property(x => x.Amount)
+                    .HasPrecision(18, 2);
 
-           money.Property(x => x.Currency)
-            .HasMaxLength(10)
-            .IsRequired();
-    });
+                money.Property(x => x.Currency)
+                    .HasMaxLength(10)
+                    .IsRequired();
+            });
 
-
+       
+        modelBuilder.ApplyConfigurationsFromAssembly(
+            typeof(ECommerceDbContext).Assembly);
     }
 }

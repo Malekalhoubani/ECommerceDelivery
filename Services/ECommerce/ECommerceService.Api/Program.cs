@@ -1,6 +1,9 @@
 using BuildingBlocks.Common.Exceptions;
+using DataAccess.Contexts;
 using DataAccess.Repositories.GenericRepository;
 using DataAccess.UnitOfWork;
+using ECommerceService.Application.Interfaces;
+using ECommerceService.Application.Services;
 using ECommerceService.Application.Services.Products;
 using ECommerceService.Infrastructure.Data;
 using Logging.Configurations;
@@ -8,7 +11,6 @@ using Logging.Correlation;
 using Logging.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using DataAccess.Contexts;
 var builder = WebApplication.CreateBuilder(args);
 
 SerilogConfiguration.CreateLoggerConfiguration(builder.Environment.ApplicationName,builder.Environment.EnvironmentName).CreateLogger();
@@ -26,6 +28,8 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+
 builder.Services.AddScoped<BaseDbContext>(sp =>sp.GetRequiredService<ECommerceDbContext>());
 var app = builder.Build();
 
